@@ -1,4 +1,4 @@
 package com.backend.tcatool.dto;
 
-public class TransformerDto {
+public class TransformerDataDto {
 }
