@@ -1,4 +1,14 @@
 /* You can add global styles to this file, and also import other style files */
+:root{
+    --bg-main-color-light-theme: rgb(0, 0, 0);
+    --bg-frame-color-dark-theme: rgb(27, 31, 35);
+    --text-color-dark-theme: rgb(149, 151, 153);
+    --text-color-emphasis-dark-theme: rgb(199, 200, 201);
+    --icon-selected-color-dark-theme: rgb(233, 233, 233);
+    --icon-color-dark-theme: rgb(187, 188, 189);
+    --icon-color-hover-dark-theme: rgba(235, 235, 235, 0.5);
+}
+
 *{
     padding: 0;
     margin: 0;
@@ -9,19 +19,23 @@
     width: 100vw;
     height: 100vh;
     display: flex;
-    background-color: #2f2f2f;
+    background-color: var(--bg-main-color-light-theme);
     align-items: center;
     justify-content: center;
 }
 
 .info{
-    color: rgb(109, 65, 0);
+    color: var(--text-color-dark-theme);
     font-family: Arial, Helvetica, sans-serif;
     font-size: large;
+    margin-bottom: 10px;
 }
 
 .title{
-    color: rgb(141, 115, 0);
+    color: var(--text-color-emphasis-dark-theme);
     font-family: Arial, Helvetica, sans-serif;
     font-size: large;
+    margin-bottom: 12px;
+    display: flex;
+    justify-content: center;
 }

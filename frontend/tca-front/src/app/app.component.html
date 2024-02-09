@@ -1,7 +1,26 @@
 <div class="container">
   <div class="content">
-    <p class="title">Welcome to TCA-Tool.</p>
-    <p class="info">This Tool is used to generate a answer based on a Chromatographic analysis of the transformer</p>
+    <h1 class="title">Welcome to TCA-Tool.</h1>
+    <h6 class="info">This Tool is used to generate a answer based on a Chromatographic analysis of the transformer</h6>
+    <h6 class="info">The tool will analyse the combustible gases based on the following diagnostics:
+      <ul class="list">
+        <li>Duval</li>
+        <li>Doble</li>
+        <li>General Electric</li>
+        <li>IEC</li>
+        <li>Laborelec</li>
+      </ul>
+    </h6>
+    <div class="buttons">
+      <div class="button-insert">
+        <h6 class="info">You can insert the worksheet of the data below</h6>
+        <button class="input-data">Insert .xlsx file</button>
+      </div>
+      <div class="button-get-template">
+        <h6 class="info">Or you can get a template of the .xlsx file</h6>
+        <button class="get-template" (click)="getTemplate()">Get template</button>
+      </div>
+    </div>
   </div>
 </div>
 
