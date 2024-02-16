@@ -1,4 +1,19 @@
 package com.backend.tcatool.repository;
 
-public interface TransformerDataRepository {
+import com.backend.tcatool.domain.TransformerData;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
+import org.springframework.stereotype.Repository;
+
+@Repository
+public interface TransformerDataRepository extends JpaRepository<TransformerData, Integer> {
+
+    @Query("SELECT COUNT(t)>0 FROM TransformerData t WHERE t.transformerCode = :tCode")
+    public Boolean isTransformerExisting(
+            @Param("tCode") String transformerCode
+    );
+
+//    @Query("SELECT t FROM TransformerData t")
+//    public Set<TransformerDataGetDto> getTransformers();
 }
