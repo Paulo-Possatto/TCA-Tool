@@ -106,7 +106,7 @@ public class TransformerDataImpl implements TransformerDataService {
     }
 
     @Override
-    public Object getTransformerById(Integer id) {
+    public Object getTransformerById(long id) {
         Object res = null;
         try {
             TransformerData value = repository.findById(id).orElse(null);
@@ -139,7 +139,7 @@ public class TransformerDataImpl implements TransformerDataService {
     }
 
     @Override
-    public Object updateTransformer(Integer id, TransformerDataPutDto transformer) {
+    public Object updateTransformer(long id, TransformerDataPutDto transformer) {
         Object res = null;
         try{
             TransformerData value = repository.findById(id).orElse(null);
@@ -174,7 +174,7 @@ public class TransformerDataImpl implements TransformerDataService {
     }
 
     @Override
-    public Object deleteTransformer(Integer id) {
+    public Object deleteTransformer(long id) {
         Object res = null;
         try{
             TransformerData value = repository.findById(id).orElse(null);

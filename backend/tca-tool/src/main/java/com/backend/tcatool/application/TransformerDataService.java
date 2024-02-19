@@ -9,9 +9,9 @@ public interface TransformerDataService {
 
     Object getTransformers();
 
-    Object getTransformerById(Integer id);
+    Object getTransformerById(long id);
 
-    Object updateTransformer(Integer id, TransformerDataPutDto transformer);
+    Object updateTransformer(long id, TransformerDataPutDto transformer);
 
-    Object deleteTransformer(Integer id);
+    Object deleteTransformer(long id);
 }

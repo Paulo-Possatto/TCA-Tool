@@ -19,9 +19,9 @@ public class TransformerData implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "transformer_id")
-    private Integer transformerId;
+    private long transformerId;
 
-    @Column(name = "transformer_code")
+    @Column(name = "transformer_code", unique = true)
     private String transformerCode;
 
     @Column(name = "transformer_type")

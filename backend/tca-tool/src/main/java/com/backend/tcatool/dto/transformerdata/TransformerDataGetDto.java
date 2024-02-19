@@ -11,7 +11,7 @@ import java.util.Date;
 @Getter
 @Setter
 public class TransformerDataGetDto {
-    private Integer transformerId;
+    private long transformerId;
     private String city;
     private String country;
     private InstallationType installationType;

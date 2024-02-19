@@ -20,16 +20,6 @@ public class TransformerDataController {
     @Autowired
     private TransformerDataImpl service;
 
-    private ResponseEntity<Object> validateResult(Object res, Object bodyIfSuccessful, HttpStatus statusIfSuccessful){
-        if(res instanceof ErrorType){
-            ErrorType err = (ErrorType) res;
-            int errorCode = Integer.valueOf(err.getHttpCode());
-            return new ResponseEntity<>(err.getMoreInformation(), HttpStatusCode.valueOf(errorCode));
-        } else {
-            return new ResponseEntity<>(bodyIfSuccessful, statusIfSuccessful);
-        }
-    }
-
     @PostMapping(PathConstants.ADD_DATA)
     public ResponseEntity<Object> addTransformerData(
             @Valid @RequestBody TransformerDataPostDto dataDto

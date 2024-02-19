@@ -7,7 +7,7 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface TransformerDataRepository extends JpaRepository<TransformerData, Integer> {
+public interface TransformerDataRepository extends JpaRepository<TransformerData, Long> {
 
     @Query("SELECT COUNT(t)>0 FROM TransformerData t WHERE t.transformerCode = :tCode")
     public Boolean isTransformerExisting(
