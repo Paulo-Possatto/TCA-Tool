@@ -5,4 +5,4 @@ TCA-Tool: Transformer Chromatographic Analyser Tool. This tool will analyze and 
 Created with Angular, will show to the user the condition of the transformer based on the combustible gases present.
 
 ### Backend:
-Will validate the data sent by the user, calculate the data, generate a result and send the data to a MySQL Database.
+Will validate the data sent by the user, calculate the data, generate a result and send the data to a PostgreSQL Database.
