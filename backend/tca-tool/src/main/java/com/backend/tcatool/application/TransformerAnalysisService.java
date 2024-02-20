@@ -1,12 +1,10 @@
 package com.backend.tcatool.application;
 
-import com.backend.tcatool.dto.transformeranalysis.TransformerAnalysisGetDto;
-import com.backend.tcatool.dto.transformeranalysis.TransformerAnalysisPostDto;
-import com.backend.tcatool.dto.transformeranalysis.TransformerAnalysisPutDto;
+import com.backend.tcatool.dto.TransformerAnalysisDto;
 
 public interface TransformerAnalysisService {
 
-    Object addNewTransformerAnalysis(TransformerAnalysisPostDto analysis);
+    Object addNewTransformerAnalysis(TransformerAnalysisDto analysis);
 
     Object getTransformerAnalysis();
 
@@ -14,7 +12,7 @@ public interface TransformerAnalysisService {
 
     Object getTransformerAnalysisByTransformerCode(String transformerCode);
 
-    Object updateTransformerAnalysis(long id, TransformerAnalysisPutDto analysis);
+    Object updateTransformerAnalysis(long id, TransformerAnalysisDto analysis);
 
     Object deleteTransformerAnalysis(long id);
 }

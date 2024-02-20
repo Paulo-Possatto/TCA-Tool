@@ -2,7 +2,7 @@ package com.backend.tcatool.controller;
 
 import com.backend.tcatool.application.TransformerAnalysisImpl;
 import com.backend.tcatool.constants.PathConstants;
-import com.backend.tcatool.dto.transformeranalysis.TransformerAnalysisPostDto;
+import com.backend.tcatool.dto.TransformerAnalysisDto;
 import com.backend.tcatool.error.ErrorType;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,7 +21,7 @@ public class TransformerAnalysisController {
 
     @PostMapping(PathConstants.ADD_DATA)
     public ResponseEntity<Object> addAnalysis(
-            @Valid @RequestBody TransformerAnalysisPostDto analysis
+            @Valid @RequestBody TransformerAnalysisDto analysis
             ){
         Object res = service.addNewTransformerAnalysis(analysis);
         if(res instanceof ErrorType){

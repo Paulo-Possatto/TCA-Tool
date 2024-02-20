@@ -2,8 +2,7 @@ package com.backend.tcatool.controller;
 
 import com.backend.tcatool.application.TransformerDataImpl;
 import com.backend.tcatool.constants.PathConstants;
-import com.backend.tcatool.dto.transformerdata.TransformerDataPostDto;
-import com.backend.tcatool.dto.transformerdata.TransformerDataPutDto;
+import com.backend.tcatool.dto.TransformerDataDto;
 import com.backend.tcatool.error.ErrorType;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,7 +21,7 @@ public class TransformerDataController {
 
     @PostMapping(PathConstants.ADD_DATA)
     public ResponseEntity<Object> addTransformerData(
-            @Valid @RequestBody TransformerDataPostDto dataDto
+            @Valid @RequestBody TransformerDataDto dataDto
             ){
         Object res = service.addNewTransformer(dataDto);
         if(res instanceof ErrorType){
@@ -61,7 +60,7 @@ public class TransformerDataController {
     @PutMapping(PathConstants.UPDATE_DATA)
     public ResponseEntity<Object> updateTransformer(
             @PathVariable("id") Integer id,
-            @RequestBody TransformerDataPutDto transformer
+            @Valid @RequestBody TransformerDataDto transformer
             ){
         Object res = service.updateTransformer(id, transformer);
         if(res instanceof ErrorType){

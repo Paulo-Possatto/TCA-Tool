@@ -1,17 +1,16 @@
 package com.backend.tcatool.application;
 
-import com.backend.tcatool.dto.transformerdata.TransformerDataPostDto;
-import com.backend.tcatool.dto.transformerdata.TransformerDataPutDto;
+import com.backend.tcatool.dto.TransformerDataDto;
 
 public interface TransformerDataService {
 
-    Object addNewTransformer(TransformerDataPostDto transformer);
+    Object addNewTransformer(TransformerDataDto transformer);
 
     Object getTransformers();
 
     Object getTransformerById(long id);
 
-    Object updateTransformer(long id, TransformerDataPutDto transformer);
+    Object updateTransformer(long id, TransformerDataDto transformer);
 
     Object deleteTransformer(long id);
 }

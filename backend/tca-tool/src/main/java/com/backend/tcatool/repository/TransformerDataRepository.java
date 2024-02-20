@@ -13,7 +13,4 @@ public interface TransformerDataRepository extends JpaRepository<TransformerData
     public Boolean isTransformerExisting(
             @Param("tCode") String transformerCode
     );
-
-//    @Query("SELECT t FROM TransformerData t")
-//    public Set<TransformerDataGetDto> getTransformers();
 }

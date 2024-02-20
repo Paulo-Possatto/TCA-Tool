@@ -3,18 +3,14 @@ package com.backend.tcatool.application;
 import com.backend.tcatool.Exception.NoRecordsFoundException;
 import com.backend.tcatool.Exception.RecordAlreadyExistsException;
 import com.backend.tcatool.domain.TransformerData;
-import com.backend.tcatool.domain.enums.VoltageType;
-import com.backend.tcatool.dto.transformerdata.TransformerDataGetDto;
-import com.backend.tcatool.dto.transformerdata.TransformerDataPostDto;
-import com.backend.tcatool.dto.transformerdata.TransformerDataPutDto;
+import com.backend.tcatool.dto.TransformerDataDto;
 import com.backend.tcatool.error.ErrorType;
+import com.backend.tcatool.mapper.TransformerDataMapperImpl;
 import com.backend.tcatool.repository.TransformerDataRepository;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 
@@ -28,7 +24,7 @@ public class TransformerDataImpl implements TransformerDataService {
     }
 
     @Override
-    public Object addNewTransformer(TransformerDataPostDto transformer) {
+    public Object addNewTransformer(TransformerDataDto transformer) {
         Object res = null;
         try{
             if(repository.isTransformerExisting(transformer.getTransformerCode())){
@@ -36,30 +32,7 @@ public class TransformerDataImpl implements TransformerDataService {
                         String.format("Tranformer with code '%s' already exists", transformer.getTransformerCode())
                 );
             }
-            TransformerData data = new TransformerData();
-            Double volt = transformer.getVoltage();
-            if(volt <= 1){
-                data.setVoltageType(VoltageType.LOW);
-            } else if(volt > 1 && volt <= 34.5){
-                data.setVoltageType(VoltageType.MEDIUM);
-            } else if (volt > 34.5 && volt <= 230){
-                data.setVoltageType(VoltageType.HIGH);
-            } else {
-                data.setVoltageType(VoltageType.VERY_HIGH);
-            }
-            data.setTransformerCode(transformer.getTransformerCode());
-            data.setTransformerType(transformer.getTransformerType());
-            data.setInstallationType(transformer.getInstallationType());
-            data.setVoltage(transformer.getVoltage());
-            data.setPower(transformer.getPower());
-            data.setSubstationName(transformer.getSubstationName());
-            data.setCountry(transformer.getCountry());
-            data.setRegion(transformer.getRegion());
-            data.setCity(transformer.getCity());
-            data.setLastAnalysis(null);
-            data.setIsOperating(transformer.getIsOperating());
-            data.setLastUpdate(new Date());
-            res = repository.save(data);
+            res = repository.save(TransformerDataMapperImpl.dtoToEntityForPost(transformer));
         } catch (RecordAlreadyExistsException e) {
             res = new ErrorType(HttpStatus.CONFLICT, e.getMessage());
         } catch (Exception e){
@@ -76,25 +49,9 @@ public class TransformerDataImpl implements TransformerDataService {
             if (data.isEmpty()) {
                 throw new NoRecordsFoundException("There are no records");
             }
-            List<TransformerDataGetDto> listTransformers = new ArrayList<>();
-            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+            List<TransformerDataDto> listTransformers = new ArrayList<>();
             for (TransformerData value : data) {
-                TransformerDataGetDto dataGetDto = new TransformerDataGetDto();
-                dataGetDto.setTransformerId(value.getTransformerId());
-                dataGetDto.setCity(value.getCity());
-                dataGetDto.setPower(value.getPower());
-                dataGetDto.setTransformerType(value.getTransformerType());
-                dataGetDto.setTransformerCode(value.getTransformerCode());
-                dataGetDto.setCountry(value.getCountry());
-                dataGetDto.setRegion(value.getRegion());
-                dataGetDto.setVoltage(value.getVoltage());
-                dataGetDto.setLastAnalysis(value.getLastAnalysis() != null ? formatter.format(value.getLastAnalysis()) : null);
-                dataGetDto.setInstallationType(value.getInstallationType());
-                dataGetDto.setIsOperating(value.getIsOperating());
-                dataGetDto.setSubstationName(value.getSubstationName());
-                dataGetDto.setVoltageType(value.getVoltageType());
-                dataGetDto.setLastUpdate(value.getLastUpdate() != null ? formatter.format(value.getLastUpdate()) : null);
-                listTransformers.add(dataGetDto);
+                listTransformers.add(TransformerDataMapperImpl.entityToDtoForGet(value));
             }
             res = listTransformers;
         } catch (NoRecordsFoundException e){
@@ -113,23 +70,7 @@ public class TransformerDataImpl implements TransformerDataService {
             if (value == null) {
                 throw new NoRecordsFoundException(String.format("There are no records with id = %s", id));
             }
-            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-            TransformerDataGetDto dataGetDto = new TransformerDataGetDto();
-            dataGetDto.setTransformerId(value.getTransformerId());
-            dataGetDto.setCity(value.getCity());
-            dataGetDto.setPower(value.getPower());
-            dataGetDto.setTransformerType(value.getTransformerType());
-            dataGetDto.setTransformerCode(value.getTransformerCode());
-            dataGetDto.setCountry(value.getCountry());
-            dataGetDto.setRegion(value.getRegion());
-            dataGetDto.setVoltage(value.getVoltage());
-            dataGetDto.setLastAnalysis(value.getLastAnalysis() != null ? formatter.format(value.getLastAnalysis()) : null);
-            dataGetDto.setInstallationType(value.getInstallationType());
-            dataGetDto.setIsOperating(value.getIsOperating());
-            dataGetDto.setSubstationName(value.getSubstationName());
-            dataGetDto.setVoltageType(value.getVoltageType());
-            dataGetDto.setLastUpdate(value.getLastUpdate() != null ? formatter.format(value.getLastUpdate()) : null);
-            res = dataGetDto;
+            res = TransformerDataMapperImpl.entityToDtoForGet(value);
         } catch (NoRecordsFoundException e){
             res = new ErrorType(HttpStatus.NO_CONTENT, e.getMessage());
         } catch (Exception e){
@@ -139,7 +80,7 @@ public class TransformerDataImpl implements TransformerDataService {
     }
 
     @Override
-    public Object updateTransformer(long id, TransformerDataPutDto transformer) {
+    public Object updateTransformer(long id, TransformerDataDto transformer) {
         Object res = null;
         try{
             TransformerData value = repository.findById(id).orElse(null);
@@ -149,19 +90,7 @@ public class TransformerDataImpl implements TransformerDataService {
             if(!Objects.equals(id, transformer.getTransformerId())){
                 throw new IllegalArgumentException("The ids don't match");
             }
-            value.setTransformerId(transformer.getTransformerId());
-            value.setCity(transformer.getCity());
-            value.setCountry(transformer.getCountry());
-            value.setInstallationType(transformer.getInstallationType());
-            value.setIsOperating(transformer.getIsOperating());
-            value.setLastUpdate(new Date());
-            value.setPower(transformer.getPower());
-            value.setRegion(transformer.getRegion());
-            value.setSubstationName(transformer.getSubstationName());
-            value.setTransformerCode(transformer.getTransformerCode());
-            value.setTransformerType(transformer.getTransformerType());
-            value.setVoltage(transformer.getVoltage());
-            value.setLastAnalysis(transformer.getLastAnalysis());
+            value = TransformerDataMapperImpl.dtoToEntityForPut(transformer);
             res = repository.save(value);
         } catch (NoRecordsFoundException e){
             res = new ErrorType(HttpStatus.NO_CONTENT, e.getMessage());
@@ -184,6 +113,8 @@ public class TransformerDataImpl implements TransformerDataService {
             repository.deleteById(id);
         } catch (NoRecordsFoundException e){
             res = new ErrorType(HttpStatus.NO_CONTENT, e.getMessage());
+        } catch (Exception e){
+            res = new ErrorType(HttpStatus.INTERNAL_SERVER_ERROR, e.getMessage());
         }
         return res;
     }
