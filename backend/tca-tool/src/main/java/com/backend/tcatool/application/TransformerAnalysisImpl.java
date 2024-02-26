@@ -3,17 +3,14 @@ package com.backend.tcatool.application;
 import com.backend.tcatool.Exception.NoRecordsFoundException;
 import com.backend.tcatool.Exception.NoTransformerExistingException;
 import com.backend.tcatool.domain.TransformerAnalysis;
-import com.backend.tcatool.domain.TransformerData;
 import com.backend.tcatool.dto.TransformerAnalysisDto;
-import com.backend.tcatool.dto.TransformerDataDto;
 import com.backend.tcatool.error.ErrorType;
 import com.backend.tcatool.mapper.TransformerAnalysisMapperImpl;
-import com.backend.tcatool.mapper.TransformerDataMapperImpl;
+import com.backend.tcatool.methods.Results;
 import com.backend.tcatool.repository.TransformerAnalysisRepository;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
-import java.text.SimpleDateFormat;
 import java.util.*;
 
 @Service
@@ -37,8 +34,12 @@ public class TransformerAnalysisImpl implements TransformerAnalysisService{
                         String.format("There are no transformer with code %s", analysis.getTransformerDataDto().getTransformerCode())
                 );
             }
-            //TODO: Validate data (DTO) with the methods
-            res = repository.save(TransformerAnalysisMapperImpl.fromDtoToEntityPost(analysis));
+            Map<String, String> results = analiseTransformerConditions(analysis);
+            Map<String, Object> totalResults = new HashMap<>();
+            totalResults.put("results", results);
+            repository.save(TransformerAnalysisMapperImpl.fromDtoToEntityPost(analysis));
+            totalResults.put("response", "Transformer Analysis Successfully added!");
+            res = totalResults;
         } catch (NoTransformerExistingException e){
             res = new ErrorType(HttpStatus.NOT_FOUND, e.getMessage());
         } catch (Exception e){
@@ -140,5 +141,18 @@ public class TransformerAnalysisImpl implements TransformerAnalysisService{
             res = new ErrorType(HttpStatus.INTERNAL_SERVER_ERROR, e.getMessage());
         }
         return res;
+    }
+
+    public Map<String, String> analiseTransformerConditions(TransformerAnalysisDto transformerAnalysisDto){
+        Results results = new Results(
+                transformerAnalysisDto.getCh4(),
+                transformerAnalysisDto.getH2(),
+                transformerAnalysisDto.getC2h2(),
+                transformerAnalysisDto.getC2h4(),
+                transformerAnalysisDto.getC2h6(),
+                transformerAnalysisDto.getCo(),
+                transformerAnalysisDto.getCo2()
+        );
+        return results.getResults();
     }
 }
